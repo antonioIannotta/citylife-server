@@ -10,5 +10,5 @@ import java.time.LocalDateTime
  * testo,
  * username dell'utente che la invia
  */
-data class Report(val type: ReportType, val location: String,
-                  val localDateTime: LocalDateTime, val text: String, val username: String) {}
+data class Report(val type: String, val location: String,
+                  val localDateTime: String, val text: String, val username: String) {}
