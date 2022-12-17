@@ -15,17 +15,21 @@ class ServerOperations {
         return mapUserLocationDistance
     }
 
-    fun interestedUsersForReport(report: Report) {
+    fun interestedUsersForReport(report: Report): String {
         val reportLocation = report.location
         val reportLatitude = reportLocation.split(" - ")[0]
         val reportLongitude = reportLocation.split(" - ")[1]
+        var usernameList = emptyList<String>().toMutableList()
 
         retrieveLocationForEveryUser().filter {
             entry -> (userInDistanceOfInterest(entry, reportLatitude, reportLongitude))
 
         }.forEach {
-            entry -> send(entry["Username"]!!, report)
+            entry ->
+            entry["Username"]?.let { usernameList.add(it) }
         }
+
+        return usernameList.toString()
     }
 
     fun send(username: String, report: Report) {}
