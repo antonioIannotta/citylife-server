@@ -15,7 +15,6 @@ data class ServerReport(val type: String, val location: String,
         return this.type == serverReport.type &&
                 this.location == serverReport.location &&
                 this.localDateTime == serverReport.localDateTime &&
-                this.text == serverReport.text &&
                 this.listOfUsername == serverReport.listOfUsername
     }
 
