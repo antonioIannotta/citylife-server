@@ -1,13 +1,13 @@
 import com.mongodb.MongoClient
+import com.mongodb.MongoClientURI
 
 class MongoDB {
 
-    val url = "127.0.0.1"
-    val port = 27017
+    val url = "mongodb+srv://admin:<password>@sctm.p6dkpwo.mongodb.net/?retryWrites=true&w=majority"
     val dbName = "CityLife"
     val collectionName = "Location"
 
-    val locationCollection = MongoClient(url, port)
+    val locationCollection = MongoClient(MongoClientURI(url))
         .getDatabase(dbName).getCollection(collectionName)
 
     fun readLocationForEveryUser() = locationCollection.find()

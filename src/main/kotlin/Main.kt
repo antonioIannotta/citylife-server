@@ -1,14 +1,14 @@
 import com.example.citylife.model.report.Report
 import com.example.citylife.model.report.ServerReport
 import com.mongodb.MongoClient
+import com.mongodb.MongoClientURI
 import org.bson.Document
 
-val dbAddress = "127.0.0.1"
-val port = 27017
+val dbAddress = "mongodb+srv://admin:<password>@sctm.p6dkpwo.mongodb.net/?retryWrites=true&w=majority"
 val dbName = "CityLife"
-val clientCollection = MongoClient(dbAddress, port).getDatabase(dbName)
+val clientCollection = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName)
     .getCollection("Client collection")
-val serverCollection = MongoClient(dbAddress, port).getDatabase(dbName)
+val serverCollection = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName)
     .getCollection("Server collection")
 
 fun main() {
