@@ -11,4 +11,10 @@ import java.time.LocalDateTime
  * username dell'utente che la invia
  */
 data class Report(val type: String, val location: String,
-                  val localDateTime: String, val text: String, val username: String) {}
+                  val localDateTime: String, val text: String, val username: String) {
+
+    public fun equals(report: Report) =
+        this.type == report.type && this.location == report.location
+                && this.localDateTime == report.localDateTime && this.username == report.username
+                && this.text == report.text
+}

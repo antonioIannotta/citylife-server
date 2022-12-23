@@ -16,19 +16,21 @@ class ServerOperations {
     }
 
     fun interestedUsersForReport(report: Report): String {
-        val reportLocation = report.location
-        val reportLatitude = reportLocation.split(" - ")[0]
-        val reportLongitude = reportLocation.split(" - ")[1]
-        var usernameList = emptyList<String>().toMutableList()
+        lateinit var usernameList: MutableList<String>
+        if (report.location == "") {
+            usernameList = emptyList<String>().toMutableList()
+        } else {
+            val reportLocation = report.location
+            val reportLatitude = reportLocation.split(" - ")[0]
+            val reportLongitude = reportLocation.split(" - ")[1]
+            usernameList = emptyList<String>().toMutableList()
+            retrieveLocationForEveryUser().filter { entry ->
+                (userInDistanceOfInterest(entry, reportLatitude, reportLongitude))
 
-        retrieveLocationForEveryUser().filter {
-            entry -> (userInDistanceOfInterest(entry, reportLatitude, reportLongitude))
-
-        }.forEach {
-            entry ->
-            entry["Username"]?.let { usernameList.add(it) }
+            }.forEach { entry ->
+                entry["Username"]?.let { usernameList.add(it) }
+            }
         }
-
         return usernameList.toString()
     }
 

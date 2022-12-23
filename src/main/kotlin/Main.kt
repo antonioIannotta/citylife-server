@@ -4,7 +4,7 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 import org.bson.Document
 
-val dbAddress = "mongodb+srv://admin:<password>@sctm.p6dkpwo.mongodb.net/?retryWrites=true&w=majority"
+val dbAddress = "mongodb+srv://admin:Antonio-26@sctm.p6dkpwo.mongodb.net/?retryWrites=true/"
 val dbName = "CityLife"
 val clientCollection = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName)
     .getCollection("Client collection")
@@ -17,8 +17,10 @@ fun main() {
     var lastLocalStoredReport = Report("", "", "", "", "")
 
     while (true) {
+        println("Checking!")
         val lastReportInsertedInDB = clientCollection.find().first()?.let { createReport(it) }
-        if (lastLocalStoredReport == lastReportInsertedInDB) {
+        println(lastReportInsertedInDB)
+        if (lastLocalStoredReport.equals(lastReportInsertedInDB) || lastReportInsertedInDB == null) {
             continue
         } else {
             if (lastReportInsertedInDB != null) {
@@ -29,6 +31,7 @@ fun main() {
             lastLocalStoredReport.localDateTime, lastLocalStoredReport.text, listOfInterestedUser)
 
             createAndInsertServerReport(serverReport)
+            Thread.sleep(10000)
         }
     }
 }
