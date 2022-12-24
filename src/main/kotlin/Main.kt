@@ -10,7 +10,6 @@ val clientCollection = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName
     .getCollection("Client collection")
 val serverCollection = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName)
     .getCollection("Server collection")
-
 fun main() {
 
 
