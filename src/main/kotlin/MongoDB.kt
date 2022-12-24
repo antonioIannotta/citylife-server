@@ -3,7 +3,7 @@ import com.mongodb.MongoClientURI
 
 class MongoDB {
 
-    val url = "mongodb+srv://admin:<password>@sctm.p6dkpwo.mongodb.net/?retryWrites=true&w=majority"
+    val url = "mongodb+srv://admin:Antonio-26@sctm.p6dkpwo.mongodb.net/?retryWrites=true/"
     val dbName = "CityLife"
     val collectionName = "Location"
 
