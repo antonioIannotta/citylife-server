@@ -39,10 +39,9 @@ class ServerOperations {
 
     private fun returnMapFromDocument(document: Document): MutableMap<String, String> {
         val mapUserLocationDistance = mutableMapOf<String, String>()
-        val entryList = document.entries.toList()
-        mapUserLocationDistance["username"] = entryList[1].value.toString()
-        mapUserLocationDistance["location"] = entryList[2].value.toString()
-        mapUserLocationDistance["distance"] = entryList[3].value.toString()
+        mapUserLocationDistance["username"] = document["username"].toString()
+        mapUserLocationDistance["location"] = document["location"].toString()
+        mapUserLocationDistance["distance"] = document["distance"].toString()
 
         return mapUserLocationDistance
     }

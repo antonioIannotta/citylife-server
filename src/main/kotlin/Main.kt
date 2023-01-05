@@ -18,7 +18,7 @@ fun main() {
 
     while (true) {
         println("Checking!")
-        val lastReportInsertedInDB = clientCollection.find().first()?.let { createReport(it) }
+        val lastReportInsertedInDB = clientCollection.find().last()?.let { createReport(it) }
         println(lastReportInsertedInDB)
         if (lastLocalStoredReport == lastReportInsertedInDB || lastReportInsertedInDB == null) {
             continue
@@ -51,7 +51,7 @@ private fun createDocument(serverReport: ServerReport): Document {
 private fun createReport(document: Document): Report {
     val type = document["type"].toString()
     val location = document["location"].toString()
-    val localDateTime =  document["type"].toString()
+    val localDateTime =  document["localDateTime"].toString()
     val text = document["text"].toString()
     val username = document["username"].toString()
 
