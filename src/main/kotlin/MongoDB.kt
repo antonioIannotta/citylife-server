@@ -1,13 +1,15 @@
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
+import com.mongodb.client.MongoCollection
+import org.bson.Document
 
 class MongoDB {
 
-    val url = "mongodb+srv://admin:Antonio-26@sctm.p6dkpwo.mongodb.net/?retryWrites=true/"
-    val dbName = "CityLife"
-    val collectionName = "Location"
+    private val url = "mongodb+srv://antonioIannotta:AntonioIannotta-26@citylife.f5vv5xs.mongodb.net/?retryWrites=true"
+    private val dbName = "CityLife"
+    private val collectionName = "location"
 
-    val locationCollection = MongoClient(MongoClientURI(url))
+    private val locationCollection: MongoCollection<Document> = MongoClient(MongoClientURI(url))
         .getDatabase(dbName).getCollection(collectionName)
 
     fun readLocationForEveryUser() = locationCollection.find()

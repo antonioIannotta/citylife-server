@@ -2,14 +2,15 @@ import com.example.citylife.model.report.Report
 import com.example.citylife.model.report.ServerReport
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
+import com.mongodb.client.MongoCollection
 import org.bson.Document
 
-val dbAddress = "mongodb+srv://admin:Antonio-26@sctm.p6dkpwo.mongodb.net/?retryWrites=true/"
-val dbName = "CityLife"
-val clientCollection = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName)
-    .getCollection("Client collection")
-val serverCollection = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName)
-    .getCollection("Server collection")
+const val dbAddress = "mongodb+srv://antonioIannotta:AntonioIannotta-26@citylife.f5vv5xs.mongodb.net/?retryWrites=true"
+const val dbName = "CityLife"
+val clientCollection: MongoCollection<Document> = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName)
+    .getCollection("clientReport")
+val serverCollection: MongoCollection<Document> = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName)
+    .getCollection("serverReport")
 fun main() {
 
 
@@ -19,7 +20,7 @@ fun main() {
         println("Checking!")
         val lastReportInsertedInDB = clientCollection.find().first()?.let { createReport(it) }
         println(lastReportInsertedInDB)
-        if (lastLocalStoredReport.equals(lastReportInsertedInDB) || lastReportInsertedInDB == null) {
+        if (lastLocalStoredReport == lastReportInsertedInDB || lastReportInsertedInDB == null) {
             continue
         } else {
             if (lastReportInsertedInDB != null) {
@@ -41,18 +42,18 @@ private fun createAndInsertServerReport(serverReport: ServerReport) {
 
 private fun createDocument(serverReport: ServerReport): Document {
     return Document()
-        .append("Type", serverReport.type)
-        .append("Location", serverReport.location)
-        .append("LocalDateTime", serverReport.localDateTime)
-        .append("Text", serverReport.text)
-        .append("ListOfUsername", serverReport.listOfUsername)
+        .append("type", serverReport.type)
+        .append("location", serverReport.location)
+        .append("localDateTime", serverReport.localDateTime)
+        .append("text", serverReport.text)
+        .append("listOfUsername", serverReport.listOfUsername)
 }
 private fun createReport(document: Document): Report {
-    val type = document["Type"].toString()
-    val location = document["Location"].toString()
-    val localDateTime =  document["Type"].toString()
-    val text = document["Text"].toString()
-    val username = document["Username"].toString()
+    val type = document["type"].toString()
+    val location = document["location"].toString()
+    val localDateTime =  document["type"].toString()
+    val text = document["text"].toString()
+    val username = document["username"].toString()
 
     return Report(type, location, localDateTime, text, username)
 }

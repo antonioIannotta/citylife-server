@@ -6,7 +6,7 @@ class ServerOperations {
 
     val usersLocationAndDistance = MongoDB().readLocationForEveryUser()
 
-    fun retrieveLocationForEveryUser(): MutableList<MutableMap<String, String>> {
+    private fun retrieveLocationForEveryUser(): MutableList<MutableMap<String, String>> {
         val mapUserLocationDistance = emptyList<MutableMap<String, String>>().toMutableList()
         usersLocationAndDistance.forEach {
             document -> mapUserLocationDistance.add(returnMapFromDocument(document))
@@ -28,7 +28,7 @@ class ServerOperations {
                 (userInDistanceOfInterest(entry, reportLatitude, reportLongitude))
 
             }.forEach { entry ->
-                entry["Username"]?.let { usernameList.add(it) }
+                entry["username"]?.let { usernameList.add(it) }
             }
         }
         return usernameList.toString()
@@ -39,17 +39,17 @@ class ServerOperations {
     private fun returnMapFromDocument(document: Document): MutableMap<String, String> {
         val mapUserLocationDistance = mutableMapOf<String, String>()
         val entryList = document.entries.toList()
-        mapUserLocationDistance["Username"] = entryList[1].value.toString()
-        mapUserLocationDistance["Location"] = entryList[2].value.toString()
-        mapUserLocationDistance["Distance"] = entryList[3].value.toString()
+        mapUserLocationDistance["username"] = entryList[1].value.toString()
+        mapUserLocationDistance["location"] = entryList[2].value.toString()
+        mapUserLocationDistance["distance"] = entryList[3].value.toString()
 
         return mapUserLocationDistance
     }
 
     private fun userInDistanceOfInterest(userMap: Map<String, String>, reportLat: String, reportLon: String): Boolean {
-        val userLatitude = userMap["Location"]?.split(" - ")?.get(0)?.toDouble()
-        val userLongitude = userMap["Location"]?.split(" - ")?.get(1)?.toDouble()
-        val userDistance = userMap["Distance"]?.toDouble()
+        val userLatitude = userMap["location"]?.split(" - ")?.get(0)?.toDouble()
+        val userLongitude = userMap["location"]?.split(" - ")?.get(1)?.toDouble()
+        val userDistance = userMap["distance"]?.toDouble()
 
         return computeDistance(userLatitude, userLongitude, reportLat.toDouble(), reportLon.toDouble()) < userDistance!!
 
