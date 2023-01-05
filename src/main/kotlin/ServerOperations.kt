@@ -1,10 +1,11 @@
 import com.example.citylife.model.report.Report
+import com.mongodb.client.FindIterable
 import org.bson.Document
 import kotlin.math.*
 
 class ServerOperations {
 
-    val usersLocationAndDistance = MongoDB().readLocationForEveryUser()
+    private val usersLocationAndDistance: FindIterable<Document> = MongoDB().readLocationForEveryUser()
 
     private fun retrieveLocationForEveryUser(): MutableList<MutableMap<String, String>> {
         val mapUserLocationDistance = emptyList<MutableMap<String, String>>().toMutableList()
@@ -34,7 +35,7 @@ class ServerOperations {
         return usernameList.toString()
     }
 
-    fun send(username: String, report: Report) {}
+    //fun send(username: String, report: Report) {}
 
     private fun returnMapFromDocument(document: Document): MutableMap<String, String> {
         val mapUserLocationDistance = mutableMapOf<String, String>()
