@@ -16,7 +16,7 @@ class ServerOperations {
         return mapUserLocationDistance
     }
 
-    fun interestedUsersForReport(report: Report): String {
+    fun interestedUsersForReport(report: Report): MutableList<String> {
         lateinit var usernameList: MutableList<String>
         if (report.location == "") {
             usernameList = emptyList<String>().toMutableList()
@@ -32,7 +32,8 @@ class ServerOperations {
                 entry["username"]?.let { usernameList.add(it) }
             }
         }
-        return usernameList.toString()
+        //return usernameList.toString()
+        return usernameList
     }
 
     //fun send(username: String, report: Report) {}
