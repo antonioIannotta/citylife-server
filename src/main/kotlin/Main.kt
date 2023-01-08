@@ -51,11 +51,12 @@ private fun createAndInsertUserReportDocument(username: String, lastLocalStoredR
 
 private fun createUserReportDocument(username: String, lastReport: Report): Document {
     return Document()
-        .append("username", username)
+        .append("interestedUsername", username)
         .append("type", lastReport.type)
         .append("location", lastReport.location)
         .append("localDateTime", lastReport.localDateTime)
         .append("text", lastReport.text)
+        .append("username", lastReport.username)
 }
 private fun createReport(document: Document): Report {
     val type = document["type"].toString()
