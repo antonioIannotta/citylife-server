@@ -1,5 +1,3 @@
-import com.example.citylife.model.report.Report
-import com.example.citylife.model.report.ServerReport
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoCollection
@@ -13,6 +11,14 @@ val serverCollection: MongoCollection<Document> = MongoClient(MongoClientURI(dbA
     .getCollection("serverReport")
 val userReportCollection: MongoCollection<Document> = MongoClient(MongoClientURI(dbAddress)).getDatabase(dbName)
     .getCollection("userReportDocument")
+
+/**
+ * Il metodo main è il punto d'accesso al server.
+ * Prevede un ciclo infinito che, ripetutamente, controlla l'ultimo report inserito dagli utenti. In caso questo
+ * report sia diverso da quello precedentemente memorizzato recupera la lista degli utenti interessati al report e
+ * si occupa di aggiungere il report, con il tag dell'utente interessato, all'interno della collezione
+ * 'userReportCollection' nel DB.
+ */
 fun main() {
 
 
@@ -29,26 +35,25 @@ fun main() {
                 lastLocalStoredReport = lastReportInsertedInDB
             }
             val listOfInterestedUser = ServerOperations().interestedUsersForReport(lastLocalStoredReport)
-            /*val serverReport = ServerReport(lastLocalStoredReport.type, lastLocalStoredReport.location,
-            lastLocalStoredReport.localDateTime, lastLocalStoredReport.text, listOfInterestedUser)*/
             listOfInterestedUser.forEach {
                 username -> createAndInsertUserReportDocument(username, lastLocalStoredReport)
             }
-            //createAndInsertServerReport(serverReport)
             Thread.sleep(10000)
         }
     }
 }
 
+/**
+ * Metodo che si occupa di inserire un report, con il tag dello username dell'utente interessato, all'interno della
+ * collezione 'userReportCollection'
+ */
 private fun createAndInsertUserReportDocument(username: String, lastLocalStoredReport: Report) =
     userReportCollection.insertOne(createUserReportDocument(username, lastLocalStoredReport))
 
-/*private fun createAndInsertServerReport(serverReport: ServerReport) {
-    serverCollection.insertOne(createDocument(serverReport))
-}*/
-
-
-
+/**
+ * Metodo che si occupa di creare, a partire da un report passato come argomento e dallo username un nuovo documento,
+ * da memorizzare nella collezione 'userReportCollection'
+ */
 private fun createUserReportDocument(username: String, lastReport: Report): Document {
     return Document()
         .append("interestedUsername", username)
@@ -58,6 +63,10 @@ private fun createUserReportDocument(username: String, lastReport: Report): Docu
         .append("text", lastReport.text)
         .append("username", lastReport.username)
 }
+
+/**
+ * Metodo che a partire da un documento si occupa di costruire il relativo Report
+ */
 private fun createReport(document: Document): Report {
     val type = document["type"].toString()
     val location = document["location"].toString()

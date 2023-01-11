@@ -1,7 +1,3 @@
-package com.example.citylife.model.report
-
-import java.time.LocalDateTime
-
 /**
  * Classe che si occupa di comporre una segnalazione, composta da:
  * tipologia di segnalazione,
@@ -13,8 +9,20 @@ import java.time.LocalDateTime
 data class Report(val type: String, val location: String,
                   val localDateTime: String, val text: String, val username: String) {
 
-    public fun equals(report: Report) =
-        this.type == report.type && this.location == report.location
-                && this.localDateTime == report.localDateTime && this.username == report.username
-                && this.text == report.text
+    /**
+     * Metodo che effettua il confronto tra due report sulla base
+     */
+    override fun equals(other: Any?) =
+        other is Report && this.type == other.type && this.location == other.location
+                && this.localDateTime == other.localDateTime && this.username == other.username
+                && this.text == other.text
+
+    override fun hashCode(): Int {
+        var result = type.hashCode()
+        result = 31 * result + location.hashCode()
+        result = 31 * result + localDateTime.hashCode()
+        result = 31 * result + text.hashCode()
+        result = 31 * result + username.hashCode()
+        return result
+    }
 }
